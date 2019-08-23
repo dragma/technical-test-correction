@@ -1,0 +1,14 @@
+{
+  "files.exclude": {
+    "**/.expo-shared": true,
+    "**/dist": true,
+    "**/node_modules": true,
+    "data": true
+  },
+  "editor.tabSize": 2,
+  "eslint.autoFixOnSave": true,
+  "editor.rulers": [
+    100
+  ],
+  "files.eol": "\n"
+}
