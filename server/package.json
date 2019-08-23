@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/indexjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "yarn nodemon --exec babel-node src/server.js"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "babel-eslint": "^11.0.0-beta.0",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0"
+    "eslint-plugin-import": "^2.14.0",
+    "nodemon": "^1.19.1"
   }
 }
