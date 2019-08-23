@@ -1,8 +1,12 @@
+import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+
+// process env configuration
+dotenv.config();
 
 const APP_PORT = 3000;
 
