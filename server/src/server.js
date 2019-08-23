@@ -1,14 +1,21 @@
-import dotenv from 'dotenv';
 import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
 
-// process env configuration
-dotenv.config();
+import { APP_PORT } from './conf';
 
-const APP_PORT = 3000;
+import play from './services/play';
+
+// ensure public directory exists
+const publicPath = path.resolve('.', 'public');
+const dirname = path.dirname(publicPath);
+if (!fs.existsSync(dirname)) {
+  fs.mkdirSync(dirname, { recursive: true }); // recusive flag only avialable since node 10.12
+}
 
 const App = express();
 
@@ -26,6 +33,8 @@ App.use(morgan('dev'));
 
 // CORS setup
 App.use(cors());
+
+App.get('/play', play);
 
 App.use('/', (req, res) => res.send('hello world'));
 
