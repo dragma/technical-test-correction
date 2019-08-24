@@ -24,7 +24,7 @@ export class SpeechToText {
   }
 
   async recognize({ fileName }) {
-    const filePath = path.resolve('.', 'public', `${fileName}.mp3`);
+    const filePath = path.resolve(__dirname, '..', '..', 'public', `${fileName}.mp3`);
     const params = {
       audio: fs.createReadStream(filePath),
       ...this._defaultParams,

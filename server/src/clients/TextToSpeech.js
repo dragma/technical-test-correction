@@ -57,12 +57,15 @@ export class TextToSpeech {
       };
 
       console.log('Speaking with', params.voice);
-      const filePath = path.resolve('.', 'public', `${fileName}.mp3`);
+      const filePath = path.resolve(__dirname, '..', '..', 'public', `${fileName}.mp3`);
       const file = fs.createWriteStream(filePath);
 
       const response = await this.client.synthesize(params);
       response.pipe(file);
-      response.on('end', () => resolve(response));
+      response.on('end', () => resolve({
+        ...params,
+        response,
+      }));
       response.on('error', reject);
     }));
   }
