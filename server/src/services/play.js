@@ -1,18 +1,20 @@
 import { TextToSpeech } from '../clients/TextToSpeech';
 import { SpeechToText } from '../clients/SpeechToText';
 
-export default (req, res) => {
+import { MISSING_PARAMETERS } from '../utils/httpErrors';
+
+export default (req, res, next) => {
   const { text } = req.query;
 
   if (!text) {
-    res.send('KO');
+    return next(MISSING_PARAMETERS);
   }
 
   const TTS = new TextToSpeech();
   const STT = new SpeechToText();
 
   const params = { fileName: 'test', text };
-  TTS.synthesize(params)
+  return TTS.synthesize(params)
     .then(async () => await STT.recognize(params))
     .then(result => res.send(result));
 };
