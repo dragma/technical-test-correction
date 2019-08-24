@@ -9,6 +9,7 @@ import fs from 'fs';
 import { APP_PORT } from './conf';
 
 import play from './services/play';
+import connectMongo from './clients/mongo';
 
 // ensure public directory exists
 const publicPath = path.resolve('.', 'public');
@@ -38,6 +39,10 @@ App.get('/play', play);
 
 App.use('/', (req, res) => res.send('hello world'));
 
-App.listen(APP_PORT, () => {
-  console.log(`Server is listening on port ${APP_PORT}!`);
-});
+connectMongo()
+  .then(() => App.listen(APP_PORT, () => {
+    console.log(`[INFO] Server is listening on port ${APP_PORT}!`);
+  }))
+  .catch((err) => {
+    throw err;
+  });
