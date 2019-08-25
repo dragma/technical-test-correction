@@ -37,7 +37,7 @@ App.use(cors());
 
 App.get('/play', play);
 
-App.use('/', (req, res) => res.send('hello world'));
+App.get('/ping', (req, res) => res.send('pong'));
 
 connectMongo()
   .then(() => App.listen(APP_PORT, () => {
