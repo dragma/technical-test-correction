@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LayoutContainer = styled.View`
+export const LayoutContainer = styled.KeyboardAvoidingView.attrs({ behavior: 'padding' })`
   flex: 1;
   width: 100%;
   flex-direction: column;
