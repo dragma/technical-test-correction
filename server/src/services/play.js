@@ -90,5 +90,5 @@ export default async (req, res, next) => {
     TTS,
   });
 
-  return res.send(`<pre>${JSON.stringify(result, null, 2)}</pre>`);
+  return res.send(result);
 };
