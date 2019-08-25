@@ -12,10 +12,9 @@ import play from './services/play';
 import connectMongo from './clients/mongo';
 
 // ensure public directory exists
-const publicPath = path.resolve(__dirname, 'public');
-const dirname = path.dirname(publicPath);
-if (!fs.existsSync(dirname)) {
-  fs.mkdirSync(dirname, { recursive: true }); // recusive flag only avialable since node 10.12
+const publicPath = path.resolve(__dirname, '..', 'public');
+if (!fs.existsSync(publicPath)) {
+  fs.mkdirSync(publicPath, { recursive: true }); // recusive flag only avialable since node 10.12
 }
 
 const App = express();
