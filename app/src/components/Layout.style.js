@@ -7,14 +7,12 @@ export const LayoutContainer = styled.KeyboardAvoidingView.attrs({ behavior: 'pa
 `;
 
 export const LayoutTop = styled.View`
-  height: 70px;
   width: 100%;
   justify-content: center;
   padding: 10px;
 `;
 
 export const LayoutBottom = styled.View`
-  height: 100px;
   width: 100%;
   justify-content: center;
   padding: 10px;
