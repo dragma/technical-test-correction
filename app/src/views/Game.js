@@ -61,9 +61,14 @@ export default () => {
   useEffect(() => {
     if (play) {
       setLoading(true);
-      client.get('play', { params: { text: sentence, turns }})
+      client.get('/play', { params: { text: sentence, turns }})
         .then(response => {
           setGame(response.data);
+          setLoading(false);
+          setPlay(false);
+        })
+        .catch(err => {
+          console.log('Error during play')
           setLoading(false);
           setPlay(false);
         });
