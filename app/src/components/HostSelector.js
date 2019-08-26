@@ -7,7 +7,7 @@ import {
   IpSelectorSubmit
 } from './HostSelector.style';
 
-export default ({ clientOk, host, port, onHostChange, onPortChange, onValidate }) => (
+export default ({ loading,clientOk, host, port, onHostChange, onPortChange, onValidate }) => (
   <IpSelectorContainer>
     <Text>http://</Text>
     <IpSelectorHost>
@@ -38,6 +38,8 @@ export default ({ clientOk, host, port, onHostChange, onPortChange, onValidate }
             />
           }
           onPress={onValidate}
+          loading={loading}
+          loadingProps={{ size: 12 }}
         />
       )}
       {clientOk && (

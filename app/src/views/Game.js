@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text } from 'react-native-elements';
+import { AsyncStorage } from 'react-native';
 
 import Layout from '../components/Layout';
 import HostSelector from '../components/HostSelector';
@@ -8,10 +9,11 @@ import SentenceForm from '../components/SentenceForm';
 import createClient from '../clients/request';
 
 export default () => {
-  const [host, setHost] = useState('192.168.43.21');
-  const [port, setPort] = useState('3000');
+  const [host, setHost] = useState('');
+  const [port, setPort] = useState('');
   const [selected, setSelected] = useState(false);
   const [client, setClient] = useState(null);
+  const [connectionLoading, setConnexionLoading] = useState(false);
 
   const [sentence, setSentence] = useState('');
   const [turns, setTurns] = useState('1');
@@ -21,10 +23,36 @@ export default () => {
   const [game, setGame] = useState(null);
 
   useEffect(() => {
+    Promise.all([
+      AsyncStorage.getItem('host')
+        .then(h => {
+          setHost(h);
+          return h;
+        }),
+      AsyncStorage.getItem('port')
+        .then(p => {
+          setPort(p);
+          return p;
+        }),
+    ]).then(([h, p]) => {
+      if (h && p) setSelected(true);
+    })
+  }, []);
+
+  useEffect(() => {
     if (selected) {
+      setConnexionLoading(true);
       const tempClient = createClient({ host, port });
       tempClient.get('/ping')
-        .then(() => setClient(() => tempClient));
+        .then(() => {
+          setClient(() => tempClient);
+          setConnexionLoading(false);
+        })
+        .catch(() => {
+          console.log('Impossible connexion with server');
+          setSelected(false);
+          setConnexionLoading(false);
+        });
     } else {
       setClient(null);
     }
@@ -52,11 +80,13 @@ export default () => {
             setHost(text);
             setClient(null);
             setSelected(false);
+            AsyncStorage.setItem('host', text);
           }}
           onPortChange={text => {
             setPort(text);
             setClient(null);
             setSelected(false);
+            AsyncStorage.setItem('port', text);
           }}
           onValidate={() => {
             if (host && port) {
@@ -64,6 +94,7 @@ export default () => {
             }
           }}
           clientOk={!!client}
+          loading={connectionLoading}
         />
       }
       bottom={(
