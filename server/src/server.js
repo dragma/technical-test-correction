@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
+import ip from 'ip';
 
 import { APP_PORT } from './conf';
 
@@ -41,6 +42,7 @@ App.get('/ping', (req, res) => res.send('pong'));
 connectMongo()
   .then(() => App.listen(APP_PORT, () => {
     console.log(`[INFO] Server is listening on port ${APP_PORT}!`);
+    console.log(`[INFO] IP on local network id : ${ip.address()}`);
   }))
   .catch((err) => {
     throw err;
