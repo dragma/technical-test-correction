@@ -11,6 +11,15 @@ const theme = {
       fontSize: 9,
     }
   },
+  Text: {
+    h1Style: {
+      fontSize: 15,
+    },
+    h2Style: {
+      fontSize: 12,
+      fontStyle: 'italic',
+    },
+  },
 };
 
 export default theme;

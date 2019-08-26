@@ -5,6 +5,7 @@ import { AsyncStorage } from 'react-native';
 import Layout from '../components/Layout';
 import HostSelector from '../components/HostSelector';
 import SentenceForm from '../components/SentenceForm';
+import Overview from '../components/Overview';
 
 import createClient from '../clients/request';
 
@@ -118,7 +119,10 @@ export default () => {
         />
       )}
     >
-      {!!game && <Text>{JSON.stringify(game, null, 2)}</Text>}
+      <Overview
+        game={game}
+        loading={loading}
+      />
     </Layout>
   )
 };
