@@ -10,6 +10,8 @@ import ip from 'ip';
 import { APP_PORT } from './conf';
 
 import play from './services/play';
+import getSound from './services/getSound';
+
 import connectMongo from './clients/mongo';
 
 // ensure public directory exists
@@ -36,6 +38,7 @@ App.use(morgan('dev'));
 App.use(cors());
 
 App.get('/play', play);
+App.get('/sound', getSound);
 
 App.get('/ping', (req, res) => res.send('pong'));
 
