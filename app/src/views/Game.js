@@ -76,6 +76,8 @@ export default () => {
     }
   }, [play])
 
+  console.log(client && client.defaults.baseURL)
+
   return (
     <Layout
       top={
@@ -122,6 +124,7 @@ export default () => {
       <Overview
         game={game}
         loading={loading}
+        serverUrl={client && client.defaults.baseURL}
       />
     </Layout>
   )

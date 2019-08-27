@@ -1,5 +1,8 @@
-import React from 'react';
-import { Text, Card } from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import { Text, Button, Icon } from 'react-native-elements';
+import { Audio } from 'expo-av';
+
+import { TurnContainer, TurnPlayContainer } from './Turn.style';
 
 const extractVoice = (voice) => {
   const [lang] = voice.split('_');
@@ -10,11 +13,58 @@ const extractVoice = (voice) => {
   return `${name} (${lang})`;
 };
 
-export default ({ sentence, position, voice, note }) => (
-  <Card>
-    <Text h1>Tour n°{position}</Text>
-    <Text h2>Voix : {extractVoice(voice)}</Text>
-    <Text style={{ fontSize: 11 }}>Note : {Math.ceil(note * 200)  / 10}/20</Text>
-    <Text style={{ fontSize: 13, marginTop: 10 }}>> {sentence}</Text>
-  </Card>
-);
+export default ({ _id, sentence, position, voice, note, serverUrl }) => {
+  const [playSound, setPlaySound] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const play = async () => {
+    setLoading(true);
+    const soundObject = new Audio.Sound();
+    soundObject.setOnPlaybackStatusUpdate(({ positionMillis, durationMillis }) => {
+      if (positionMillis && positionMillis === durationMillis) {
+        setTimeout(() => {
+          soundObject.stopAsync()
+            .then(() => {
+              setLoading(false);
+              setPlaySound(false);
+            })
+        }, 500);
+      }
+    });
+    const source = {
+      uri: `${serverUrl}/sound?turnId=${_id}`,
+    };
+    await soundObject.loadAsync(source);
+    await soundObject.playAsync();
+  };
+
+  useEffect(() => {
+    if (playSound) {
+      play();
+    }
+  }, [playSound])
+
+  return (
+    <TurnContainer>
+      <Text h1>Tour n°{position}</Text>
+      <Text h2>Voix : {extractVoice(voice)}</Text>
+      <Text style={{ fontSize: 11 }}>Note : {Math.ceil(note * 200) / 10}/20</Text>
+      <Text style={{ fontSize: 13, marginTop: 10 }}>> {sentence}</Text>
+      <TurnPlayContainer>
+        <Button
+          icon={
+            <Icon
+              name="play-circle-outline"
+              size={15}
+              color="#4388D6"
+            />
+          }
+          loading={loading}
+          loadingProps={{ size: 12 }}
+          onPress={() => setPlaySound(true)}
+          type="clear"
+        />
+      </TurnPlayContainer>
+    </TurnContainer>
+  );
+};

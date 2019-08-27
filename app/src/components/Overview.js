@@ -3,7 +3,7 @@ import { Text } from 'react-native-elements';
 
 import Turn from './Turn';
 
-export default ({ game }) => !!game && (
+export default ({ game, serverUrl }) => !!game && (
   <>
     <Text style={{
       textAlign: 'center',
@@ -33,6 +33,7 @@ export default ({ game }) => !!game && (
       <Turn
         key={turn._id}
         position={key + 1}
+        serverUrl={serverUrl}
         {...turn}
       />
     ))}
