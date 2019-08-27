@@ -1,8 +1,16 @@
 import React from 'react';
-import { SentenceFormContainer, SentenceFormInputContainer, SentenceFormButtonContainer, SentenceFormTurnsContainer, ButtonTheme } from './SentenceForm.style';
-import { ThemeProvider, Input, Button, Icon, Text } from 'react-native-elements';
+import PropTypes from 'prop-types';
+import { Input, Button, Icon } from 'react-native-elements';
 
-export default ({ disabled, sentence, onChangeSentence, turns, onChangeTurns, onPressPlay }) => (
+import {
+  SentenceFormContainer,
+  SentenceFormInputContainer,
+  SentenceFormButtonContainer,
+} from './SentenceForm.style';
+
+const SentenceForm = ({
+  disabled, sentence, onChangeSentence, turns, onChangeTurns, onPressPlay,
+}) => (
   <>
     <SentenceFormContainer>
       <SentenceFormInputContainer>
@@ -27,16 +35,27 @@ export default ({ disabled, sentence, onChangeSentence, turns, onChangeTurns, on
       <SentenceFormButtonContainer>
         <Button
           disabled={disabled}
-          icon={
+          icon={(
             <Icon
               name="send"
               size={15}
               color="white"
             />
-          }
+          )}
           onPress={onPressPlay}
         />
       </SentenceFormButtonContainer>
     </SentenceFormContainer>
   </>
-)
+);
+
+SentenceForm.propTypes = {
+  disabled: PropTypes.bool.isRequired,
+  sentence: PropTypes.string.isRequired,
+  onChangeSentence: PropTypes.func.isRequired,
+  turns: PropTypes.string.isRequired,
+  onChangeTurns: PropTypes.func.isRequired,
+  onPressPlay: PropTypes.func.isRequired,
+};
+
+export default SentenceForm;

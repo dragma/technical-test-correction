@@ -1,33 +1,28 @@
-import React from'react';
+import React from 'react';
 import { Text } from 'react-native-elements';
 
 import Turn from './Turn';
 
+const defaultStyle = { textAlign: 'center' };
+const sentenceStyle = {
+  ...defaultStyle,
+  fontStyle: 'italic',
+  fontWeight: 'bold',
+};
+
 export default ({ game, serverUrl }) => !!game && (
   <>
-    <Text style={{
-      textAlign: 'center',
-      fontStyle: 'italic',
-      fontWeight: 'bold',
-    }}>
-      "{game.sentence}"
+    <Text style={sentenceStyle}>
+      {`"${game.sentence}"`}
     </Text>
-    <Text style={{
-      textAlign: 'center',
-    }}>
+    <Text style={defaultStyle}>
       devient
     </Text>
-    <Text style={{
-      textAlign: 'center',
-      fontStyle: 'italic',
-      fontWeight: 'bold',
-    }}>
-      "{game.final_sentence}"
+    <Text style={sentenceStyle}>
+      {`"${game.final_sentence}"`}
     </Text>
-    <Text style={{
-      textAlign: 'center',
-    }}>
-      Note globale : {Math.ceil(game.final_note * 200) / 10}/20
+    <Text style={defaultStyle}>
+      {`Note globale : ${Math.ceil(game.final_note * 200) / 10}/20`}
     </Text>
     {game.turns.map((turn, key) => (
       <Turn

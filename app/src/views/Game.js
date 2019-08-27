@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Text } from 'react-native-elements';
 import { AsyncStorage } from 'react-native';
 
 import Layout from '../components/Layout';
@@ -26,18 +25,18 @@ export default () => {
   useEffect(() => {
     Promise.all([
       AsyncStorage.getItem('host')
-        .then(h => {
+        .then((h) => {
           setHost(h);
           return h;
         }),
       AsyncStorage.getItem('port')
-        .then(p => {
+        .then((p) => {
           setPort(p);
           return p;
         }),
     ]).then(([h, p]) => {
       if (h && p) setSelected(true);
-    })
+    });
   }, []);
 
   useEffect(() => {
@@ -57,40 +56,38 @@ export default () => {
     } else {
       setClient(null);
     }
-  }, [selected])
+  }, [selected]);
 
   useEffect(() => {
     if (play) {
       setLoading(true);
-      client.get('/play', { params: { text: sentence, turns }})
-        .then(response => {
+      client.get('/play', { params: { text: sentence, turns } })
+        .then((response) => {
           setGame(response.data);
           setLoading(false);
           setPlay(false);
         })
-        .catch(err => {
-          console.log('Error during play')
+        .catch(() => {
+          console.log('Error during play');
           setLoading(false);
           setPlay(false);
         });
     }
-  }, [play])
-
-  console.log(client && client.defaults.baseURL)
+  }, [play]);
 
   return (
     <Layout
-      top={
+      top={(
         <HostSelector
           host={host}
           port={port}
-          onHostChange={text => {
+          onHostChange={(text) => {
             setHost(text);
             setClient(null);
             setSelected(false);
             AsyncStorage.setItem('host', text);
           }}
-          onPortChange={text => {
+          onPortChange={(text) => {
             setPort(text);
             setClient(null);
             setSelected(false);
@@ -104,7 +101,7 @@ export default () => {
           clientOk={!!client}
           loading={connectionLoading}
         />
-      }
+)}
       bottom={(
         <SentenceForm
           disabled={!client || loading}
@@ -115,7 +112,7 @@ export default () => {
           onPressPlay={() => {
             if (turns && sentence) {
               setPlay(true);
-              setGame(null)
+              setGame(null);
             }
           }}
         />
@@ -127,5 +124,5 @@ export default () => {
         serverUrl={client && client.defaults.baseURL}
       />
     </Layout>
-  )
+  );
 };

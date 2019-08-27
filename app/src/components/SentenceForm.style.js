@@ -12,4 +12,3 @@ export const SentenceFormInputContainer = styled.View`
 export const SentenceFormButtonContainer = styled.View`
   flex: 1;
 `;
-

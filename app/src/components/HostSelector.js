@@ -1,13 +1,23 @@
 import React from 'react';
-import { Input, Button, Icon, Text } from 'react-native-elements';
+import PropTypes from 'prop-types';
+import {
+  Input, Button, Icon, Text,
+} from 'react-native-elements';
 import {
   IpSelectorContainer,
   IpSelectorHost,
   IpSelectorPort,
-  IpSelectorSubmit
+  IpSelectorSubmit,
 } from './HostSelector.style';
 
-export default ({ loading,clientOk, host, port, onHostChange, onPortChange, onValidate }) => (
+const altButtonStyle = {
+  backgroundColor: '#00ce00',
+  borderColor: '#00ce00',
+};
+
+const HostSelector = ({
+  loading, clientOk, host, port, onHostChange, onPortChange, onValidate,
+}) => (
   <IpSelectorContainer>
     <Text>http://</Text>
     <IpSelectorHost>
@@ -29,35 +39,43 @@ export default ({ loading,clientOk, host, port, onHostChange, onPortChange, onVa
     </IpSelectorPort>
     <IpSelectorSubmit>
       {!clientOk && (
-        <Button
-          icon={
-            <Icon
-              name="check-circle"
-              size={15}
-              color="white"
-            />
-          }
-          onPress={onValidate}
-          loading={loading}
-          loadingProps={{ size: 12 }}
-        />
+      <Button
+        icon={(
+          <Icon
+            name="check-circle"
+            size={15}
+            color="white"
+          />
+        )}
+        onPress={onValidate}
+        loading={loading}
+        loadingProps={{ size: 12 }}
+      />
       )}
       {clientOk && (
-        <Button
-          type="outline"
-          buttonStyle={{
-            backgroundColor: '#00ce00',
-            borderColor: '#00ce00',
-          }}
-          icon={
-            <Icon
-              name="check-circle"
-              size={15}
-              color="white"
-            />
-          }
-        />
+      <Button
+        type="outline"
+        buttonStyle={altButtonStyle}
+        icon={(
+          <Icon
+            name="check-circle"
+            size={15}
+            color="white"
+          />
+        )}
+      />
       )}
     </IpSelectorSubmit>
   </IpSelectorContainer>
-)
+);
+
+HostSelector.propTypes = {
+  loading: PropTypes.bool.isRequired,
+  clientOk: PropTypes.bool.isRequired,
+  host: PropTypes.string.isRequired,
+  port: PropTypes.string.isRequired,
+  onHostChange: PropTypes.func.isRequired,
+  onPortChange: PropTypes.func.isRequired,
+  onValidate: PropTypes.func.isRequired,
+};
+export default HostSelector;

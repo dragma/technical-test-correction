@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Text, Button, Icon } from 'react-native-elements';
 import { Audio } from 'expo-av';
 
@@ -8,12 +9,14 @@ const extractVoice = (voice) => {
   const [lang] = voice.split('_');
   let name = voice.split('_')[1].split('V3')[0];
   if (name.indexOf('Voice') !== -1) {
-    name = name.split('Voice')[0]
+    [name] = name.split('Voice');
   }
   return `${name} (${lang})`;
 };
 
-export default ({ _id, sentence, position, voice, note, serverUrl }) => {
+const Turn = ({
+  _id, sentence, position, voice, note, serverUrl,
+}) => {
   const [playSound, setPlaySound] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +30,7 @@ export default ({ _id, sentence, position, voice, note, serverUrl }) => {
             .then(() => {
               setLoading(false);
               setPlaySound(false);
-            })
+            });
         }, 500);
       }
     });
@@ -42,23 +45,34 @@ export default ({ _id, sentence, position, voice, note, serverUrl }) => {
     if (playSound) {
       play();
     }
-  }, [playSound])
+  }, [playSound]);
+
+  const noteStyle = { fontSize: 11 };
+  const sentenceStyle = { fontSize: 13, marginTop: 10 };
 
   return (
     <TurnContainer>
-      <Text h1>Tour n°{position}</Text>
-      <Text h2>Voix : {extractVoice(voice)}</Text>
-      <Text style={{ fontSize: 11 }}>Note : {Math.ceil(note * 200) / 10}/20</Text>
-      <Text style={{ fontSize: 13, marginTop: 10 }}>> {sentence}</Text>
+      <Text h1>
+        {`Tour n°${position}`}
+      </Text>
+      <Text h2>
+        {`Voix : ${extractVoice(voice)}`}
+      </Text>
+      <Text style={noteStyle}>
+        {`Note : ${Math.ceil(note * 200) / 10}/20`}
+      </Text>
+      <Text style={sentenceStyle}>
+        {`> ${sentence}`}
+      </Text>
       <TurnPlayContainer>
         <Button
-          icon={
+          icon={(
             <Icon
               name="play-circle-outline"
               size={15}
               color="#4388D6"
             />
-          }
+          )}
           loading={loading}
           loadingProps={{ size: 12 }}
           onPress={() => setPlaySound(true)}
@@ -68,3 +82,14 @@ export default ({ _id, sentence, position, voice, note, serverUrl }) => {
     </TurnContainer>
   );
 };
+
+Turn.propTypes = {
+  _id: PropTypes.string.isRequired,
+  sentence: PropTypes.string.isRequired,
+  position: PropTypes.number.isRequired,
+  voice: PropTypes.string.isRequired,
+  note: PropTypes.number.isRequired,
+  serverUrl: PropTypes.string.isRequired,
+};
+
+export default Turn;

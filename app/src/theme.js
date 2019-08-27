@@ -9,7 +9,7 @@ const theme = {
     },
     labelStyle: {
       fontSize: 9,
-    }
+    },
   },
   Text: {
     h1Style: {
