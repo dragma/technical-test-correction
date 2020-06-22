@@ -72,10 +72,16 @@ const HostSelector = ({
 HostSelector.propTypes = {
   loading: PropTypes.bool.isRequired,
   clientOk: PropTypes.bool.isRequired,
-  host: PropTypes.string.isRequired,
-  port: PropTypes.string.isRequired,
+  host: PropTypes.string,
+  port: PropTypes.string,
   onHostChange: PropTypes.func.isRequired,
   onPortChange: PropTypes.func.isRequired,
   onValidate: PropTypes.func.isRequired,
 };
+
+HostSelector.defaultProps = {
+  host: '',
+  port: '',
+};
+
 export default HostSelector;

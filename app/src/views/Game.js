@@ -101,7 +101,7 @@ export default () => {
           clientOk={!!client}
           loading={connectionLoading}
         />
-)}
+      )}
       bottom={(
         <SentenceForm
           disabled={!client || loading}

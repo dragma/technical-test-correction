@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Text, Button, Icon } from 'react-native-elements';
 import { Audio } from 'expo-av';
@@ -14,13 +14,16 @@ const extractVoice = (voice) => {
   return `${name} (${lang})`;
 };
 
+const noteStyle = { fontSize: 11 };
+const sentenceStyle = { fontSize: 13, marginTop: 10 };
+
 const Turn = ({
   _id, sentence, position, voice, note, serverUrl,
 }) => {
   const [playSound, setPlaySound] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const play = async () => {
+  const play = useCallback(async () => {
     setLoading(true);
     const soundObject = new Audio.Sound();
     soundObject.setOnPlaybackStatusUpdate(({ positionMillis, durationMillis }) => {
@@ -39,16 +42,13 @@ const Turn = ({
     };
     await soundObject.loadAsync(source);
     await soundObject.playAsync();
-  };
+  }, []);
 
   useEffect(() => {
     if (playSound) {
       play();
     }
   }, [playSound]);
-
-  const noteStyle = { fontSize: 11 };
-  const sentenceStyle = { fontSize: 13, marginTop: 10 };
 
   return (
     <TurnContainer>
