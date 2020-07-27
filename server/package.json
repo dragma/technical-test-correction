@@ -4,8 +4,11 @@
   "description": "",
   "main": "dist/indexjs",
   "scripts": {
+    "build:prod": "NODE_ENV=production yarn build",
+    "build": "yarn babel src -d dist --copy-files",
+    "dev": "yarn nodemon --exec babel-node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "yarn nodemon --exec babel-node src/server.js"
+    "start:prod": "yarn pm2 start dist/index.js --name ubim"
   },
   "repository": {
     "type": "git",
@@ -44,6 +47,7 @@
     "ip": "^1.1.5",
     "mongoose": "^5.6.10",
     "morgan": "^1.9.1",
+    "pm2": "^4.4.0",
     "slug": "^1.1.0"
   }
 }
