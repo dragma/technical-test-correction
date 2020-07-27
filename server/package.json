@@ -8,7 +8,7 @@
     "build": "yarn babel src -d dist --copy-files",
     "dev": "yarn nodemon --exec babel-node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:prod": "yarn pm2 start dist/index.js --name ubim"
+    "start:prod": "yarn pm2 start dist/index.js --name \"technical-test-server\""
   },
   "repository": {
     "type": "git",
